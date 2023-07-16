@@ -1,0 +1,12 @@
+// This file was generated. Do not modify.
+
+namespace ::namespace::
+{
+    [default_interface]
+    runtimeclass ::name:: : ::base::
+    {
+        ::foreach fields::
+        ::declaration::
+        ::end::
+    }
+}
