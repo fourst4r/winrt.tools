@@ -9,7 +9,7 @@ using haxe.macro.TypeTools;
 
 #if !macro
 @:genericBuild(winrt.tools.RuntimeClass.Builder.build())
-interface RuntimeClass<T, TBase: winrt.windows.foundation.IInspectable> {}
+interface RuntimeClass<T, TBase/*: winrt.windows.foundation.IInspectable*/> {}
 #end
 
 
@@ -55,7 +55,7 @@ class Builder {
                 final t = t_ref.get();
                 final name = t.name;
                 final nameT = name + "T";
-                final include = '${name}.g.h';
+                final include = '../Generated Files/${name}.g.h';
                 
                 // add meta for the IDL generator
                 t.meta.add(Meta.RuntimeClass, [], t.pos);

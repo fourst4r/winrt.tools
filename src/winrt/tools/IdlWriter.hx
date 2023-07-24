@@ -7,6 +7,20 @@ import haxe.macro.Type;
 
 using haxe.macro.TypeTools;
 
+private final RuntimeClassTemplate = "// This file was generated. Do not modify.
+
+namespace ::namespace::
+{
+    [default_interface]
+    runtimeclass ::name:: : ::base::
+    {
+        ::foreach fields::
+        ::declaration::
+        ::end::
+    }
+}
+";
+
 class IdlWriter {
     var o:Output;
 
@@ -24,7 +38,7 @@ class IdlWriter {
     }
 
     public function writeClass(c:ClassType) {
-        final tpl = new Template(Resource.getString("RuntimeClass.mtt"));
+        final tpl = new Template(RuntimeClassTemplate/*Resource.getString("RuntimeClass.mtt")*/);
         final namespace = c.pack.join(".");
         final ctx = {
             namespace: namespace,

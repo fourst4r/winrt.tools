@@ -1,0 +1,4 @@
+--class-path src
+--library reflaxe.cpp
+--define cpp-output=out
+--define cxx-no-null-warnings
