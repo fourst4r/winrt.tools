@@ -15,21 +15,39 @@ interface RuntimeClass<T, TBase/*: winrt.windows.foundation.IInspectable*/> {}
 
 class Builder {
 
+    static final IDL_FILENAME = "RuntimeClasses.idl";
     static var _inited = false;
+    static var _runtimeClasses:Array<ClassType>;
 
     static function writeIdlFiles(modules:Array<ModuleType>) {
+        #if macro
+
         modules = modules.filter(isRuntimeClass);
+
+        // var tydef:TypeDefinition = {
+        //     pack: t.pack.copy().concat(["implementation"]),
+        //     name: t.name + "TYPEDEF",
+        //     kind: TDAlias(TypeTools.toComplexType(TInst(t_ref, []))),
+        //     pos: impl.pos,
+        //     fields: [],
+        // };
+        // trace(tydef.name);
+        // Context.defineType(tydef);
+
+
+        final fo = File.write(IDL_FILENAME);
         for (mod in modules) {
             switch (mod) {
                 case TClassDecl(_.get() => c):
-                    final fo = File.write(c.name + ".idl");
                     final writer = new IdlWriter(fo);
                     writer.writeClass(c);
-                    fo.close();
                 default:
                     throw "Unsupported IDL module: "+mod;
             }
         }
+        fo.close();
+
+        #end
     }
 
     static function isRuntimeClass(module) {
@@ -59,7 +77,28 @@ class Builder {
                 
                 // add meta for the IDL generator
                 t.meta.add(Meta.RuntimeClass, [], t.pos);
-                
+                trace(t.name);
+
+                final impl = macro class $name {};
+                $type(impl);
+                $type(t);
+                impl.fields = [];
+                for (f in t.fields.get()) {
+                    impl.fields.push({
+                        name: f.name,
+                        pos: f.pos,
+                        kind: switch (f.kind) {
+                            case FVar(read, write): null;
+                            case FMethod(k): null;
+                        },
+                    });
+                }
+                impl.pack = t.pack.copy().concat(["implementation"]);
+                // Context.defineType(impl);
+
+
+
+                // Context.defineType(mkRuntimeClassImpl(name));
                 Context.defineType(mkRuntimeClassExtern(nameT, include, {pack: base.pack, name: base.name}));
 
                 return TPath({
@@ -72,6 +111,17 @@ class Builder {
                 throw "Invalid local type.";
         }
         #end
+    }
+
+    static function mkRuntimeClassImpl(name:String) {
+        #if macro
+        final pos = Context.currentPos();
+        final c = macro class $name {}
+        #end
+    }
+    
+    static function mkRuntimeClassFactoryImpl(name:String) {
+
     }
 
     // Constructs an extern for the runtime class that is generated in C++ from the MIDL compiler,

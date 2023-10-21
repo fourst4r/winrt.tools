@@ -6,11 +6,38 @@
   xmlns:rescap="http://schemas.microsoft.com/appx/manifest/foundation/windows10/restrictedcapabilities"
   IgnorableNamespaces="uap rescap">
 
+  <!-- 
+    Package Identity, see https://learn.microsoft.com/en-us/windows/apps/desktop/modernize/package-identity-overview.
+
+    Name: 
+      This is a name chosen by the app developer. The Microsoft Store enforces uniqueness of all app names 
+      across all app developers within the Store, but names are not guaranteed to be unique in the general ecosystem.
+
+    Version: 
+      Version number of the package. The app developer can choose arbitrary version numbers but must ensure version 
+      numbers increase with updates.
+
+    Publisher: 
+      The app developer's subject name as identified by their signing certificate. This is theoretically unique 
+      for each app developer, because reputable certification authorities use unique real-world names and identities 
+      to populate the certificate's subject name field.
+
+    Architecture: 
+      The processor architecture being targeted by the package. The same app can be built targeting different processor 
+      architectures, with each build residing in its own package.
+      One of "neutral", "x86", "x64", "arm", "arm64", "x86a64".
+
+    ResourceId: 
+      A string chosen by the app developer to uniquely identify resource packages, for example different languages or 
+      different display scales. Resource packages are typically architecture-neutral. For bundles, the ResourceId is 
+      always ~.
+   -->
   <Identity
     Name="App"
     Publisher="CN=::author::"
     Version="1.0.0.0" />
 
+  <!-- See https://learn.microsoft.com/en-us/uwp/schemas/appxpackage/uapmanifestschema/element-properties -->
   <Properties>
     <DisplayName>::appname::</DisplayName>
     <PublisherDisplayName>::author::</PublisherDisplayName>

@@ -8,5 +8,6 @@
   "classPath": "src/",
   "releasenote": "",
   "contributors": ["fourst4r"],
-  "dependencies": {}
+  "dependencies": {},
+  "main": "Run"
 }

@@ -7,7 +7,7 @@ import haxe.macro.Type;
 
 using haxe.macro.TypeTools;
 
-private final RuntimeClassTemplate = "// This file was generated. Do not modify.
+private final RuntimeClassTemplate = "
 
 namespace ::namespace::
 {
@@ -26,6 +26,7 @@ class IdlWriter {
 
     public function new(o:Output) {
         this.o = o;
+        this.o.writeString("// This file was generated. Do not modify.\n\n");
     }
 
     public function writeType(type:Type) {
@@ -111,6 +112,7 @@ class IdlWriter {
             case TAbstract(_.get() => t, []): 
                 switch (t.name) {
                     case "Int": "Int32";
+                    case "IInspectable": "Object";
                     case name: name;
                 }
             default: trace(type); "asds";
