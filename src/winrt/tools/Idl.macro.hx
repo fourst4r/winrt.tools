@@ -15,7 +15,7 @@ function generate(modules:Array<ModuleType>) {
     final writer = new IdlWriter(fo);
     for (mod in modules) {
         switch (mod) {
-            case TClassDecl(_.get() => c) if (c.meta.has(Meta.RuntimeClass)):
+            case TClassDecl(_.get() => c) if (c.meta.has(Meta.RuntimeClass) && !c.meta.has(Meta.NoIdl) && !c.isInterface):
                 writer.writeClass(c);
             default:
         }

@@ -39,7 +39,8 @@ class IdlWriter {
     }
 
     public function writeClass(c:ClassType) {
-        trace("writing idl for "+c.name+ "with superclass "+c.superClass.t.get().name );
+        trace("writing idl for "+c.name);
+        trace("with superclass "+c.superClass.t.get().name );
         final tpl = new Template(RuntimeClassTemplate/*Resource.getString("RuntimeClass.mtt")*/);
         final namespace = c.pack.join(".");
         final ctx = {
