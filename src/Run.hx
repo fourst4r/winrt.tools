@@ -55,8 +55,8 @@ Usage: haxelib run winrt.tools create <winrt|winui> <appname> <namespace> <autho
     static function templateFileCopy(templateSrcFile:String, dstFile:String, vars:TemplateVars) {
         final fileText = File.read(templateSrcFile, false).readAll().toString();
         final template = new Template(fileText);
-        final fi = File.write(dstFile);
-        fi.writeString(template.execute(vars));
-        fi.close();
+        final fo = File.write(dstFile);
+        fo.writeString(template.execute(vars));
+        fo.close();
     }
 }

@@ -1,4 +1,5 @@
 --class-path src
---library reflaxe.cpp
+--library reflaxe:git
+--library reflaxe.cpp:git
 --define cpp-output=out
 --define cxx-no-null-warnings

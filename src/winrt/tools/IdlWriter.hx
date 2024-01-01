@@ -39,6 +39,7 @@ class IdlWriter {
     }
 
     public function writeClass(c:ClassType) {
+        trace("writing idl for "+c.name+ "with superclass "+c.superClass.t.get().name );
         final tpl = new Template(RuntimeClassTemplate/*Resource.getString("RuntimeClass.mtt")*/);
         final namespace = c.pack.join(".");
         final ctx = {
@@ -52,12 +53,14 @@ class IdlWriter {
 
     function findBase(c:ClassType) {
         return switch (c.superClass) {
-            case {t: _.get() => sup, params: _}:
-                if (sup.meta.has(Meta.BaseT)) {
-                    sup.superClass.t.get();
-                } else {
-                    findBase(sup);
-                }
+            case _.t.get() => sup:
+                // if (sup.meta.has(Meta.BaseT)) {
+                    // trace(sup.superClass);
+                    // sup.superClass.t.get();
+                    sup;
+                // } else {
+                    // findBase(sup);
+                // }
             default:
                 throw 'Couldn\'t find base class for $c';
         }
@@ -81,7 +84,7 @@ class IdlWriter {
             fields.push({declaration: '${t.name}();'});
         }
 
-        for (f in t.fields.get().filter(f -> f.isPublic)) {
+        for (f in t.fields.get().filter(f -> f.isPublic && f.meta.has(Meta.Export))) {
             final str = idlField(f);
             if (str != null) {
                 fields.push({declaration: str});
@@ -113,6 +116,7 @@ class IdlWriter {
                 switch (t.name) {
                     case "Int": "Int32";
                     case "IInspectable": "Object";
+                    case "Void": "void";
                     case name: name;
                 }
             default: trace(type); "asds";

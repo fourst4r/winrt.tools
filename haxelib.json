@@ -8,6 +8,9 @@
   "classPath": "src/",
   "releasenote": "",
   "contributors": ["fourst4r"],
-  "dependencies": {},
+  "dependencies": {
+    "reflaxe.cpp":"",
+    "reflaxe":""
+  },
   "main": "Run"
 }
